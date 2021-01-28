@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_demo/home/homepage.dart';
+import 'package:flutter_app_demo/home/inheritedcounter.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,7 +16,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.green,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Hidden Agora'),
+      home: CountProvider(
+        counter: Counter(0),
+        child: MyHomePage(title: 'Hidden Agora'),
+      )
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_demo/second/secondpage.dart';
+import 'package:flutter_app_demo/home/inheritedcounter.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -11,8 +12,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var counterProvider;
+
   @override
   Widget build(BuildContext context) {
+    counterProvider = CountProvider.of(context);
+
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
@@ -23,6 +28,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      Text('${counterProvider.counter.count}'),
                       CircleAvatar(
                         backgroundImage: AssetImage("assets/fry.jpg"),
                         radius: 90.0,
@@ -46,7 +52,10 @@ class _MyHomePageState extends State<MyHomePage> {
                             print('Sign in button pressed!');
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => MySecondPage())
+                              MaterialPageRoute(builder: (context) => CountProvider(
+                                counter: counterProvider.counter,
+                                child: MySecondPage(),
+                              ))
                             );
                           }),
                       FlatButton(
@@ -55,6 +64,15 @@ class _MyHomePageState extends State<MyHomePage> {
                           print('Forgot Password pressed!');
                         },
                       ),
+                      RaisedButton(
+                        child: Text('increment'),
+                        onPressed: (){
+                          setState(() {
+                            counterProvider.counter.increment();
+                          });
+
+                          print('${counterProvider.counter.count}');
+                        })
                     ],
           )
         )
